@@ -14,7 +14,7 @@ st.set_page_config(page_title="Dashboard AQI Dunia", layout="wide")
 st.title("🌍 Dashboard Analisis Kualitas Udara Dunia")
 
 # Navigasi di bagian atas
-menu = st.radio("📁 Pilih Halaman:", ["Beranda", "Eksplorasi Data", "Visualisasi", "Model Klasifikasi"], horizontal=True)
+menu = st.sidebar.radio("📁 Pilih Halaman:", ["Beranda", "Eksplorasi Data", "Visualisasi", "Model Klasifikasi"])
 
 # Load dan bersihkan data
 DATA_PATH = "AQI and Lat Long of Countries.csv"
@@ -40,7 +40,7 @@ elif menu == "Eksplorasi Data":
     st.markdown("### 🔍 Eksplorasi Data")
 
     st.markdown("#### 📋 Tabel Data")
-    st.dataframe(data.head())
+    st.dataframe(data.head(), use_container_width=True)
 
     st.markdown("#### 📊 Statistik Deskriptif")
     st.write(data.describe(include="all"))
@@ -50,7 +50,7 @@ elif menu == "Eksplorasi Data":
 
     st.markdown("#### 🏙️ 20 Kota dengan AQI Rata-rata Tertinggi")
     top_cities = data.groupby('City')['AQI Value'].mean().sort_values(ascending=False).head(20)
-    st.dataframe(top_cities.reset_index())
+    st.dataframe(top_cities.reset_index(), use_container_width=True)
 
 # ===================== VISUALISASI =====================
 elif menu == "Visualisasi":
@@ -70,23 +70,27 @@ elif menu == "Visualisasi":
     for col in ['AQI Value', 'CO AQI Value', 'Ozone AQI Value', 'NO2 AQI Value', 'PM2.5 AQI Value']:
         fig, ax = plt.subplots()
         sns.histplot(data[col], kde=True, ax=ax, color="skyblue")
-        ax.set_title(f"Distribusi {col}")
+        ax.set_title(f"Distribusi {col}", fontsize=16)
+        ax.set_xlabel(col, fontsize=12)
+        ax.set_ylabel("Frekuensi", fontsize=12)
         st.pyplot(fig)
 
     st.markdown("#### 🔗 Korelasi Antar Variabel")
     fig_corr, ax = plt.subplots(figsize=(10, 8))
     sns.heatmap(data.select_dtypes(include=np.number).corr(), annot=True, cmap="coolwarm", ax=ax)
+    ax.set_title("Korelasi Antar Variabel", fontsize=16)
     st.pyplot(fig_corr)
 
     st.markdown("#### 📦 Boxplot AQI berdasarkan Kategori")
     fig_box, ax = plt.subplots(figsize=(12, 6))
     sns.boxplot(data=data, x='AQI Category', y='AQI Value', ax=ax, palette="pastel")
+    ax.set_title("Boxplot AQI berdasarkan Kategori", fontsize=16)
     st.pyplot(fig_box)
 
     st.markdown("#### 📊 Jumlah Negara per Kategori AQI")
     fig, ax = plt.subplots()
     sns.countplot(data=data, x='AQI Category', order=data['AQI Category'].value_counts().index, ax=ax, palette="Set2")
-    ax.set_title("Distribusi Kategori AQI")
+    ax.set_title("Distribusi Kategori AQI", fontsize=16)
     ax.tick_params(axis='x', rotation=45)
     st.pyplot(fig)
 
@@ -113,8 +117,9 @@ elif menu == "Model Klasifikasi":
     fig, ax = plt.subplots()
     sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt="d", cmap="Blues",
                 xticklabels=le.classes_, yticklabels=le.classes_)
-    ax.set_xlabel("Predicted")
-    ax.set_ylabel("Actual")
+    ax.set_xlabel("Predicted", fontsize=12)
+    ax.set_ylabel("Actual", fontsize=12)
+    ax.set_title("Confusion Matrix", fontsize=16)
     st.pyplot(fig)
 
     with st.expander("📄 Laporan Klasifikasi Lengkap"):
