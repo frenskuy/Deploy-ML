@@ -103,8 +103,9 @@ with tab3:
 
     with st.expander("📄 Laporan Klasifikasi Lengkap"):
         st.text(classification_report(y_test, y_pred, target_names=le.classes_))
-    st.markdown("---")
-    st.subheader("🧪 Prediksi Kategori AQI Baru")
+    
+    
+st.header("🧪 Prediksi Kategori AQI Baru")
 
     st.markdown("Masukkan nilai-nilai polutan berikut untuk memprediksi kategori AQI:")
 
