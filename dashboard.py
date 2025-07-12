@@ -1,3 +1,4 @@
+import joblib
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -78,16 +79,16 @@ with tab2:
 with tab3:
     st.header("🤖 Klasifikasi Kategori AQI dengan SVC")
 
-    le = LabelEncoder()
-    data['AQI_Label'] = le.fit_transform(data['AQI Category'])
+    # Load model dan encoder
+    svc = joblib.load("model_svc.pkl")
+    le = joblib.load("label_encoder.pkl")
 
+    # Siapkan data untuk evaluasi
+    data['AQI_Label'] = le.transform(data['AQI Category'])
     X = data[['AQI Value', 'CO AQI Value', 'Ozone AQI Value', 'NO2 AQI Value', 'PM2.5 AQI Value']]
     y = data['AQI_Label']
-
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-    svc = SVC(kernel='rbf')
-    svc.fit(X_train, y_train)
     y_pred = svc.predict(X_test)
 
     acc = accuracy_score(y_test, y_pred)
