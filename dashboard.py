@@ -18,7 +18,7 @@ data = pd.read_csv(DATA_PATH)
 data.dropna(inplace=True)
 
 # Tabs
-tab1, tab2, tab3 = st.tabs(["🔍 Eksplorasi Data", "📊 Visualisasi Data", "🤖 Model SVC"])
+tab1, tab2, tab3, tab4 = st.tabs(["🔍 Eksplorasi Data", "📊 Visualisasi Data", "🤖 Model SVC", "🧪 Prediksi Kategori AQI Baru"])
 
 # ============== TAB 1: EKSPLORASI DATA ==============
 with tab1:
@@ -103,7 +103,8 @@ with tab3:
 
     with st.expander("📄 Laporan Klasifikasi Lengkap"):
         st.text(classification_report(y_test, y_pred, target_names=le.classes_))
-    
+
+# ============== TAB 4: PREDIKSI BARU ==============
 with tab4:
     st.header("🧪 Prediksi Kategori AQI Baru")
     st.markdown("Masukkan nilai-nilai polutan berikut untuk memprediksi kategori AQI:")
