@@ -18,7 +18,7 @@ data = pd.read_csv(DATA_PATH)
 data.dropna(inplace=True)
 
 # Tabs
-tab1, tab2, tab3 = st.tabs(["🔍 Eksplorasi Data", "📊 Visualisasi Data", "🤖 Model SVC"])
+tab1, tab2, tab3, tab4 = st.tabs(["🔍 Eksplorasi Data", "📊 Visualisasi Data", "🤖 Model SVC", "🧪 Prediksi Kategori AQI Baru"])
 
 # ============== TAB 1: EKSPLORASI DATA ==============
 with tab1:
@@ -103,3 +103,26 @@ with tab3:
 
     with st.expander("📄 Laporan Klasifikasi Lengkap"):
         st.text(classification_report(y_test, y_pred, target_names=le.classes_))
+    
+# ============== TAB 4: PREDIKSI BARU ==============
+with tab4:
+    st.header("🧪 Prediksi Kategori AQI Baru")
+
+    st.markdown("Masukkan nilai-nilai polutan berikut untuk memprediksi kategori AQI:")
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        aqi_val = st.number_input("AQI Value", min_value=0.0, value=50.0)
+        co_val = st.number_input("CO AQI Value", min_value=0.0, value=1.0)
+    with col2:
+        ozone_val = st.number_input("Ozone AQI Value", min_value=0.0, value=10.0)
+        no2_val = st.number_input("NO2 AQI Value", min_value=0.0, value=5.0)
+    with col3:
+        pm25_val = st.number_input("PM2.5 AQI Value", min_value=0.0, value=12.0)
+
+    if st.button("🔍 Prediksi Kategori AQI"):
+        input_data = np.array([[aqi_val, co_val, ozone_val, no2_val, pm25_val]])
+        pred_label = svc.predict(input_data)[0]
+        pred_category = le.inverse_transform([pred_label])[0]
+        st.success(f"🌟 Prediksi Kategori AQI: **{pred_category}**")
+
