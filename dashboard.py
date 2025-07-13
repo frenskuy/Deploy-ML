@@ -24,7 +24,7 @@ tab1, tab2, tab3, tab4 = st.tabs(["🔍 Eksplorasi Data", "📊 Visualisasi Data
 with tab1:
     st.header("🔍 Eksplorasi Data")
     st.subheader("📋 Tabel Data Awal")
-    st.dataframe(data.head())
+    st.dataframe(data.head(20))
 
     st.subheader("📊 Statistik Deskriptif")
     st.write(data.describe(include="all"))
