@@ -79,16 +79,16 @@ with tab2:
 with tab3:
     st.header("🤖 Klasifikasi Kategori AQI dengan SVC")
 
-    # Load model dan encoder
-    svc = joblib.load("model_svc.pkl")
-    le = joblib.load("label_encoder.pkl")
+    le = LabelEncoder()
+    data['AQI_Label'] = le.fit_transform(data['AQI Category'])
 
-    # Siapkan data untuk evaluasi
-    data['AQI_Label'] = le.transform(data['AQI Category'])
     X = data[['AQI Value', 'CO AQI Value', 'Ozone AQI Value', 'NO2 AQI Value', 'PM2.5 AQI Value']]
     y = data['AQI_Label']
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
+    svc = SVC(kernel='rbf')
+    svc.fit(X_train, y_train)
     y_pred = svc.predict(X_test)
 
     acc = accuracy_score(y_test, y_pred)
@@ -112,13 +112,14 @@ with tab4:
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        aqi_val = st.number_input("AQI Value", min_value=0.0, value=50.0)
-        co_val = st.number_input("CO AQI Value", min_value=0.0, value=1.0)
+        aqi_val = st.number_input("AQI Value", min_value=0.0, max_value=500.0, value=50.0)
+        co_val = st.number_input("CO AQI Value", min_value=0.0, max_value=60.0, value=1.0)
     with col2:
-        ozone_val = st.number_input("Ozone AQI Value", min_value=0.0, value=10.0)
-        no2_val = st.number_input("NO2 AQI Value", min_value=0.0, value=5.0)
+        ozone_val = st.number_input("Ozone AQI Value", min_value=0.0, max_value=200.0, value=10.0)
+        no2_val = st.number_input("NO2 AQI Value", min_value=0.0, max_value=200.0, value=5.0)
     with col3:
-        pm25_val = st.number_input("PM2.5 AQI Value", min_value=0.0, value=12.0)
+        pm25_val = st.number_input("PM2.5 AQI Value", min_value=0.0, max_value=500.0, value=12.0)
+
 
     if st.button("🔍 Prediksi Kategori AQI"):
         input_data = np.array([[aqi_val, co_val, ozone_val, no2_val, pm25_val]])
