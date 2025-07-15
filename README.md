@@ -30,7 +30,7 @@ Deploy-ML/
 https://ml-kualitasudara.streamlit.app/
 
 ## 👤 Author
-Dikembangkan oleh @frenskuy[https://github.com/frenskuy]
+Dikembangkan oleh [@frenskuy](https://github.com/frenskuy)
 
 ## 🙋‍♂️ Kontribusi
 Pull request dan masukan sangat terbuka! Silakan fork repo ini dan kembangkan versi kamu sendiri.
