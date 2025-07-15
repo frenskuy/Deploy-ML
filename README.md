@@ -21,10 +21,13 @@ Deploy-ML/
 └── README.md          # Dokumentasi proyek ini
 ```
 ## 🛠️ Teknologi yang Digunakan
-- Python 3.x
-- Streamlit
-- Scikit-learn
-- Pandas & NumPy
+- streamlit
+- pandas
+- numpy
+- seaborn
+- matplotlib
+- plotly
+- scikit-learn
 
 ## 🌐 URL
 https://ml-kualitasudara.streamlit.app/
